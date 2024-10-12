@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: stock-information-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stock
+    username: postgres
+    password: postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: stockapp-user
+    password: stockapp-psw
+  elasticsearch:
+    uris: http://localhost:9200
+    index: stockhistory
+
+logging:
+  level:
+    root: info
+    sql: info
+    web: info

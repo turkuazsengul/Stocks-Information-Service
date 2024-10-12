@@ -1,0 +1,39 @@
+<configuration>
+    <!-- Konsolda renkli log çıktısı için gerekli ayarlar -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- Renkli log formatı (hepsi aynı satırda olacak şekilde) -->
+            <pattern>
+                %highlight(%d{dd-MM-yyyy HH:mm:ss}) [%thread] %highlight(%-5level) %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logları dosyaya yazmak için dosya appender'ı -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Her gün yeni bir log dosyası oluşturur -->
+            <fileNamePattern>logs/application-%d{dd-MM-yyyy}.log</fileNamePattern>
+            <maxHistory>30</maxHistory> <!-- 30 günlük log dosyalarını sakla -->
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!-- Dosya için log formatı (hepsi aynı satırda olacak şekilde) -->
+            <pattern>%highlight(%d{dd-MM-yyyy HH:mm:ss}) [%thread] %highlight(%-5level) %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Log seviyeleri ve kök yapılandırma -->
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+    <logger name="DEBUG" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
+    <!-- Belirli paketler için log seviyelerini özelleştirme -->
+    <logger name="com.stockinformationapp.service" level="debug"/>
+
+</configuration>
